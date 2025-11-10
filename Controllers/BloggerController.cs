@@ -1,5 +1,6 @@
 ﻿using Blog.Models;
 using Blog.Models.Dtios;
+using Blog.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
 
@@ -73,10 +74,10 @@ namespace Blog.Controllers
                     return NotFound(new { message = "Nincs ilyen blogger", result = "" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest(new { message = "Hiba történt", result = "" });
+                return BadRequest(new { message = ex.Message, result = "" });
             }    
         }
         [HttpDelete]
@@ -97,10 +98,36 @@ namespace Blog.Controllers
                     return NotFound(new { message = "Nincs ilyen blogger", result = "" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest(new { message = "Hiba történt", result = "" });
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+        }
+        [HttpPut]
+        public ActionResult UpdateBlogger(int id, UpdateBloggerDto blogger)
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    var existingBlogger = context.Bloggers.FirstOrDefault(b => b.Id == id);
+                    if (existingBlogger != null)
+                    {
+                        existingBlogger.Name = blogger.Name;
+                        existingBlogger.Email = blogger.Email;
+                        existingBlogger.Password = blogger.Password;
+
+                        context.SaveChanges();
+                        return Ok(new { message = "Sikeres frissítés.", result = existingBlogger });
+                    }
+                    return NotFound(new { message = "Nincs ilyen blogger", result = "" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.Message, result = "" });
             }
         }
     }
