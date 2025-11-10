@@ -26,18 +26,35 @@ namespace Blog.Controllers
                     {
                         context.Bloggers.Add(newBlogger);
                         context.SaveChanges();
-                        return StatusCode(201, new {message = "Sikeres hozzáadás.", result = newBlogger});
+                        return StatusCode(201, new { message = "Sikeres hozzáadás.", result = newBlogger });
                     }
-                    return NotFound(new { message = "Nincs blogger", result = newBlogger});
+                    return NotFound(new { message = "Nincs blogger", result = newBlogger });
                 }
             }
             catch (Exception ex)
             {
 
-                return BadRequest(new { message = ex.Message, result ="" });
+                return BadRequest(new { message = ex.Message, result = "" });
             }
 
         }
 
+        [HttpGet]
+        public ActionResult GetAllBlogger()
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    return Ok(new { message = "Sikeres lekérdezés.", result = context.Bloggers.ToList() });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.Message, result = "" });
+
+            }
+        }
     }
 }
