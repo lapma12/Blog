@@ -1,6 +1,7 @@
 ﻿using Blog.Models;
 using Blog.Models.Dtios;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 
 namespace Blog.Controllers
 {
@@ -54,6 +55,52 @@ namespace Blog.Controllers
 
                 return BadRequest(new { message = ex.Message, result = "" });
 
+            }
+        }
+
+        [HttpGet("GetById")]
+        public ActionResult GetBloggerById(int id)
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    var blog = context.Bloggers.FirstOrDefault(blogger => blogger.Id == id);
+                    if (blog != null)
+                    {
+                        return Ok(new { message = "Sikeres lekérdezés.", result = blog });
+                    }
+                    return NotFound(new { message = "Nincs ilyen blogger", result = "" });
+                }
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Hiba történt", result = "" });
+            }    
+        }
+        [HttpDelete]
+        public ActionResult DeleteBlogger(int id)
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    var blogger = context.Bloggers.FirstOrDefault(b => b.Id == id);
+
+                    if(blogger != null)
+                    {
+                        context.Bloggers.Remove(blogger);
+                        context.SaveChanges();
+                        return Ok(new { message = "Sikeres Törlés.", result = blogger });
+                    }
+                    return NotFound(new { message = "Nincs ilyen blogger", result = "" });
+                }
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Hiba történt", result = "" });
             }
         }
     }
