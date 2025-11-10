@@ -6,12 +6,9 @@ namespace Blog.Models
     {
         public BlogDBContext() { }
 
-        public BlogDBContext(DbContextOptions options) : base(options)
-        {
+        public BlogDBContext(DbContextOptions options) : base(options) {}
 
-        }
-
-        public DbSet<Blogger> Bloggers { get; set; }
+        public DbSet<BloggerDBContext> Bloggers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

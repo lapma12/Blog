@@ -1,5 +1,5 @@
 ﻿using Blog.Models;
-using Microsoft.AspNetCore.Http;
+using Blog.Models.Dtios;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
@@ -9,15 +9,33 @@ namespace Blog.Controllers
     public class BloggerController : ControllerBase
     {
         [HttpPost()]
-        public ActionResult AddNewBLogger(Blogger blogger)
+        public ActionResult AddNewBLogger(AddBloggerDto blogger)
         {
-            using (var db = new BlogDBContext())
+
+            try
             {
-                blogger.RegTime = DateTime.Now;
-                db.Bloggers.Add(blogger);
-                db.SaveChanges();
+                var newBlogger = new BloggerDBContext
+                {
+                    Name = blogger.Name,
+                    Email = blogger.Email,
+                    Password = blogger.Password
+                };
+                using (var context = new BlogDBContext())
+                {
+                    if (newBlogger != null)
+                    {
+                        context.Bloggers.Add(newBlogger);
+                        context.SaveChanges();
+                        return StatusCode(201, new {message = "Sikeres hozzáadás.", result = newBlogger});
+                    }
+                    return NotFound(new { message = "Nincs blogger", result = newBlogger});
+                }
             }
-            return Ok();
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.Message, result ="" });
+            }
 
         }
 

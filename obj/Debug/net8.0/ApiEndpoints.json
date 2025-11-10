@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "blogger",
-        "Type": "Blog.Models.Blogger",
+        "Type": "Blog.Models.Dtios.AddBloggerDto",
         "IsRequired": true
       }
     ],

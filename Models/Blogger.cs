@@ -1,6 +1,6 @@
 ﻿namespace Blog.Models
 {
-    public class Blogger
+    public class BloggerDBContext
     {
         public int Id { get; set; }
         public string Name { get; set; }
