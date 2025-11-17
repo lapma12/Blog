@@ -20,7 +20,8 @@ namespace Blog.Controllers
                 {
                     Name = blogger.Name,
                     Email = blogger.Email,
-                    Password = blogger.Password
+                    Password = blogger.Password,
+                    Phone = blogger.Phone
                 };
                 using (var context = new BlogDBContext())
                 {
@@ -117,6 +118,8 @@ namespace Blog.Controllers
                         existingBlogger.Name = blogger.Name;
                         existingBlogger.Email = blogger.Email;
                         existingBlogger.Password = blogger.Password;
+                        existingBlogger.Phone = blogger.Phone;
+                        existingBlogger.ModDate = DateTime.Now;
 
                         context.SaveChanges();
                         return Ok(new { message = "Sikeres frissítés.", result = existingBlogger });
