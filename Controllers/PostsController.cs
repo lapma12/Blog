@@ -2,6 +2,7 @@
 using Blog.Models.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MySqlX.XDevAPI.Common;
 
 namespace Blog.Controllers
@@ -99,7 +100,7 @@ namespace Blog.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateRecord(int Id,UpdatePostDto posts)
+        public IActionResult UpdateRecord(int Id, UpdatePostDto posts)
         {
             try
             {
@@ -115,6 +116,71 @@ namespace Blog.Controllers
                         return Ok(new { message = "Sikeres módosítás.", result = existingPost });
                     }
                     return NotFound(new { message = "Nincs ilyen post.", result = "" });
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Hiba történt", result = "" });
+            }
+        }
+        //Összetett lekérdedések
+        [HttpGet("withPosts")]
+        public IActionResult GetBloggerWithPosts()
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    var bloggersWithPosts = context.Bloggers.Include(b => b.Posts).ToList();
+                    return Ok(new { message = "Sikeres lekérdezés.", result = bloggersWithPosts });
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Hiba történt", result = "" });
+            }
+        }
+        [HttpGet("getByIdWithPots")]
+        public IActionResult GetBloggerByIdWithPosts(int id)
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    var bloggerWithPosts = context.Bloggers.Include(b => b.Posts).FirstOrDefault(b => b.Id == id);
+
+                    if (bloggerWithPosts != null)
+                    {
+                        return Ok(new { message = "Sikeres lekérdezés.", result = bloggerWithPosts });
+                    }
+                    return NotFound(new { message = "Nincs ilyen blogger.", result = "" });
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Hiba történt", result = "" });
+            }
+
+        }
+        [HttpGet("Name&Category")]
+        public IActionResult GetNameCategory(int id)
+        {
+            try
+            {
+                using (var context = new BlogDBContext())
+                {
+                    var bloggernameCategory = context.Bloggers
+                        .Where(b => b.Id == id)
+                        .SelectMany(b => b.Posts, (b, p) => new
+                        {
+                            BloggerName = b.Name,
+                            PostCategory = p.Category
+                        });
+                    if (bloggernameCategory != null)
+                    {
+                        return Ok(new { message = "Sikeres lekérdezés.", result = bloggernameCategory.ToList() });
+                    }
+                    return NotFound(new { message = "Nincs ilyen adat.", result = "" });
                 }
             }
             catch (Exception)
