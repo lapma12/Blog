@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Blog.Models
 {
@@ -10,7 +11,7 @@ namespace Blog.Models
 
         [Column(TypeName = "varchar(20)")]
         public string? Category { get; set; }
-        [Column("text")]
+        [Column(TypeName = "text")]
         public string Post { get; set; }
 
         public DateTime PostDate { get; set; } = DateTime.Now;
@@ -18,7 +19,7 @@ namespace Blog.Models
         public DateTime ModTime { get; set; } = DateTime.Now;
 
         public int BloggerId { get; set; }
-
+        [JsonIgnore]
         public virtual Blogger Blogger { get; set; }
     }
 }

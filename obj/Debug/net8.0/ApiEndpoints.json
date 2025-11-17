@@ -77,5 +77,84 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.PostsController",
+    "Method": "ADdNewPost",
+    "RelativePath": "api/Posts",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addPostDto",
+        "Type": "Blog.Models.Dtos.AddPostDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.PostsController",
+    "Method": "GetAllPost",
+    "RelativePath": "api/Posts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.PostsController",
+    "Method": "DeleteRecord",
+    "RelativePath": "api/Posts",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.PostsController",
+    "Method": "UpdateRecord",
+    "RelativePath": "api/Posts",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "posts",
+        "Type": "Blog.Models.Dtos.UpdatePostDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.PostsController",
+    "Method": "GetRecordByID",
+    "RelativePath": "api/Posts/ById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
