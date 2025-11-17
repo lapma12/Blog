@@ -16,7 +16,7 @@ namespace Blog.Controllers
 
             try
             {
-                var newBlogger = new BloggerDBContext
+                var newBlogger = new Blogger
                 {
                     Name = blogger.Name,
                     Email = blogger.Email,
